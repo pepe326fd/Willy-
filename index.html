@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nike Asociados — Tienda Oficial</title>
+<meta name="description" content="Programa oficial de asociados Nike. Las mejores zapatillas, ropa y accesorios Nike del mundo. Envíos a más de 90 países."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;0,900;1,900&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#080808;--white:#f5f5f5;--red:#e8030f;--red2:#b0020b;--gray:#181818;--gray2:#242424;--muted:#777;--border:#222;--gold:#f5a623;--green:#22c55e}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:.9rem 3rem;background:rgba(8,8,8,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.n-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em}
+.n-links{display:flex;gap:2rem}
+.n-links a{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.n-links a:hover{color:var(--white)}
+.n-right{display:flex;align-items:center;gap:1rem}
+.n-lang{font-size:.65rem;letter-spacing:.15em;background:none;border:1px solid var(--border);padding:.3rem .7rem;color:var(--muted);cursor:pointer;transition:all .2s}
+.n-lang:hover{border-color:var(--white);color:var(--white)}
+.n-cart{position:relative;background:none;border:none;color:var(--white);font-size:1.2rem;cursor:pointer}
+.cart-badge{position:absolute;top:-7px;right:-7px;background:var(--red);color:var(--white);font-size:.55rem;font-weight:700;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ticker{background:var(--red);overflow:hidden;height:28px;display:flex;align-items:center;margin-top:61px}
+.t-track{display:flex;white-space:nowrap;animation:ticker 30s linear infinite}
+.t-item{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;padding:0 2.5rem;font-weight:700}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hero{min-height:94vh;display:flex;align-items:flex-end;padding:0 3rem 5rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600&q=85') center/cover no-repeat}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(110deg,rgba(8,8,8,.94) 42%,rgba(8,8,8,.25) 100%)}
+.hero-content{position:relative;z-index:1;max-width:700px}
+.h-tag{font-size:.65rem;letter-spacing:.4em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;opacity:0;animation:fadeUp .6s ease forwards .3s}
+.h-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,11vw,9.5rem);line-height:.9;margin-bottom:1.5rem;opacity:0;animation:fadeUp .7s ease forwards .5s}
+.h-title .accent{color:var(--red)}
+.h-desc{font-size:1rem;line-height:1.75;color:rgba(245,245,245,.65);max-width:480px;margin-bottom:2rem;opacity:0;animation:fadeUp .7s ease forwards .7s}
+.h-btns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp .7s ease forwards .9s}
+.btn-red{padding:.9rem 2.4rem;background:var(--red);color:var(--white);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;transition:all .2s}
+.btn-red:hover{background:var(--red2);transform:translateY(-2px)}
+.btn-wh{padding:.9rem 2.4rem;background:transparent;color:var(--white);cursor:pointer;font-family:'Barlow',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border:2px solid rgba(255,255,255,.3);transition:all .2s}
+.btn-wh:hover{border-color:var(--white);transform:translateY(-2px)}
+.hero-aside{position:absolute;right:3rem;bottom:5rem;z-index:1;text-align:right;display:flex;flex-direction:column;gap:2rem;opacity:0;animation:fadeIn 1s ease forwards 1.3s}
+.hs-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1}
+.hs-lbl{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.cats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;padding:2rem 3rem 4rem}
+.cat-card{position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer}
+.cat-img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:block}
+.cat-card:hover .cat-img{transform:scale(1.07)}
+.cat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.85) 0%,transparent 55%)}
+.cat-label{position:absolute;bottom:1.5rem;left:1.5rem}
+.cat-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;line-height:1;display:block}
+.cat-count{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.cat-arrow{position:absolute;top:1.2rem;right:1.2rem;width:36px;height:36px;background:var(--white);color:var(--black);display:flex;align-items:center;justify-content:center;font-size:.9rem;opacity:0;transform:translate(4px,-4px);transition:all .3s}
+.cat-card:hover .cat-arrow{opacity:1;transform:translate(0,0)}
+section.s{padding:4rem 3rem}
+.s-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.s-tag{font-size:.62rem;letter-spacing:.35em;text-transform:uppercase;color:var(--red);margin-bottom:.4rem;display:block}
+.s-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,4.5vw,4rem);line-height:1}
+.s-more{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:1px solid var(--border);padding-bottom:2px;cursor:pointer;transition:color .2s,border-color .2s}
+.s-more:hover{color:var(--white);border-bottom-color:var(--white)}
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.prod-card{background:var(--gray);position:relative;cursor:pointer;transition:transform .3s}
+.prod-card:hover{transform:translateY(-4px)}
+.prod-img-wrap{position:relative;overflow:hidden;aspect-ratio:1/1;background:var(--gray2)}
+.prod-img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;display:block}
+.prod-card:hover .prod-img{transform:scale(1.05)}
+.badge{position:absolute;top:.8rem;left:.8rem;padding:.3rem .7rem;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;font-weight:700}
+.badge-sale{background:var(--red);color:var(--white)}
+.badge-new{background:var(--white);color:var(--black)}
+.badge-hot{background:var(--gold);color:var(--black)}
+.wishlist{position:absolute;top:.7rem;right:.7rem;background:rgba(8,8,8,.6);border:none;color:var(--white);width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;opacity:0;transition:opacity .3s;backdrop-filter:blur(4px)}
+.prod-card:hover .wishlist{opacity:1}
+.prod-info{padding:1rem 1.2rem 1.2rem}
+.prod-cat{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+.prod-name{font-size:.92rem;font-weight:600;margin-bottom:.6rem;line-height:1.3}
+.prod-price{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.price-now{font-size:1.05rem;font-weight:700}
+.price-old{font-size:.85rem;color:var(--muted);text-decoration:line-through}
+.price-save{font-size:.62rem;letter-spacing:.1em;color:var(--green);font-weight:700}
+.prod-sizes{display:flex;gap:.4rem;flex-wrap:wrap;margin:.8rem 0}
+.sz{font-size:.6rem;padding:.25rem .5rem;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s;background:none}
+.sz:hover,.sz.active{border-color:var(--white);color:var(--white)}
+.add-btn{width:100%;padding:.65rem;background:var(--white);color:var(--black);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transition:all .2s;margin-top:.2rem}
+.add-btn:hover{background:var(--red);color:var(--white)}
+.offers{background:var(--gray);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.offers-inner{display:grid;grid-template-columns:1fr 1fr;min-height:480px}
+.offer-left{padding:4rem 3rem;display:flex;flex-direction:column;justify-content:space-between;gap:1.5rem}
+.offer-countdown{display:flex;gap:1.5rem}
+.cd-block{text-align:center}
+.cd-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1;color:var(--red)}
+.cd-lbl{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.cd-sep{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--border);align-self:center}
+.offer-items{display:flex;flex-direction:column;gap:.7rem}
+.offer-item{display:flex;align-items:center;gap:.8rem;font-size:.85rem;color:rgba(245,245,245,.7)}
+.offer-item::before{content:'';width:4px;height:4px;background:var(--red);border-radius:50%;flex-shrink:0}
+.offer-right{position:relative;overflow:hidden}
+.offer-right img{width:100%;height:100%;object-fit:cover;display:block}
+.offer-right-ov{position:absolute;inset:0;background:rgba(8,8,8,.25)}
+.offer-price-tag{position:absolute;bottom:2rem;right:2rem;background:var(--red);padding:1rem 1.5rem;text-align:center}
+.opt-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase}
+.opt-price{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;line-height:1}
+.trend-scroll{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.trend-card{min-width:220px;background:var(--gray);flex-shrink:0;cursor:pointer;transition:transform .3s}
+.trend-card:hover{transform:translateY(-4px)}
+.trend-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.trend-info{padding:.8rem 1rem}
+.trend-name{font-size:.82rem;font-weight:600;margin-bottom:.3rem}
+.trend-price{font-size:.82rem;color:var(--muted)}
+.global-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.global-desc{font-size:.92rem;line-height:1.8;color:rgba(245,245,245,.6);margin:1rem 0 2rem}
+.country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:1.5rem}
+.country-pill{background:var(--gray2);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .8rem;color:var(--muted);border:1px solid var(--border);text-align:center}
+.ship-features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.sf-item{border-left:2px solid var(--red);padding-left:1rem}
+.sf-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.sf-value{font-size:.9rem;font-weight:600;margin-top:.2rem}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.ai-live{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .9rem;border:1px solid var(--red);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:1.2rem}
+.ai-live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite}
+.ai-desc{font-size:.9rem;line-height:1.8;color:rgba(245,245,245,.6);margin:1rem 0 1.5rem}
+.ai-perks{display:flex;flex-direction:column;gap:.8rem}
+.ai-perk{display:flex;align-items:center;gap:.8rem;font-size:.83rem;color:rgba(245,245,245,.65)}
+.perk-icon{width:28px;height:28px;background:var(--gray2);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.chat-box{border:1px solid var(--border);background:var(--gray);display:flex;flex-direction:column;height:500px}
+.ch-head{padding:1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.9rem}
+.ch-av{width:38px;height:38px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem}
+.ch-name{font-size:.82rem;font-weight:600}
+.ch-sub{font-size:.65rem;color:var(--muted)}
+.ch-msgs{flex:1;overflow-y:auto;padding:1.2rem;display:flex;flex-direction:column;gap:.9rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.msg{display:flex;gap:.6rem;max-width:92%}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.msg-av{width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;align-self:flex-end}
+.msg.ai .msg-av{background:var(--red)}
+.msg.user .msg-av{background:var(--gray2);color:var(--muted)}
+.msg-bbl{padding:.65rem .9rem;font-size:.82rem;line-height:1.6}
+.msg.ai .msg-bbl{background:var(--gray2);border-left:2px solid var(--red)}
+.msg.user .msg-bbl{background:var(--red)}
+.typing{display:flex;gap:4px;padding:.3rem 0}
+.typing span{width:5px;height:5px;background:var(--red);border-radius:50%;animation:bounce 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+.quick-btns{display:flex;gap:.5rem;flex-wrap:wrap;padding:.6rem 1.1rem;border-top:1px solid var(--border)}
+.qb{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Barlow',sans-serif;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .7rem;cursor:pointer;transition:all .2s}
+.qb:hover{border-color:var(--red);color:var(--red)}
+.ch-input-row{border-top:1px solid var(--border);display:flex}
+.ch-input{flex:1;padding:.9rem 1.1rem;background:transparent;border:none;outline:none;color:var(--white);font-family:'Barlow',sans-serif;font-size:.85rem}
+.ch-input::placeholder{color:var(--muted)}
+.ch-send{padding:.9rem 1.3rem;background:var(--red);border:none;color:var(--white);cursor:pointer;font-size:1rem;transition:background .2s;flex-shrink:0}
+.ch-send:hover{background:var(--red2)}
+.ch-send:disabled{opacity:.4;cursor:not-allowed}
+.news{background:var(--red);padding:4rem 3rem;text-align:center}
+.news-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,4rem);margin-bottom:.5rem}
+.news-desc{font-size:.9rem;opacity:.8;margin-bottom:2rem}
+.news-form{display:flex;max-width:480px;margin:0 auto}
+.news-inp{flex:1;padding:.9rem 1.2rem;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2);border-right:none;color:var(--white);font-family:'Barlow',sans-serif;font-size:.85rem;outline:none}
+.news-inp::placeholder{color:rgba(255,255,255,.5)}
+.news-btn{padding:.9rem 1.8rem;background:var(--black);color:var(--white);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;transition:background .2s;white-space:nowrap}
+.news-btn:hover{background:#111}
+footer{background:var(--gray);border-top:1px solid var(--border);padding:3rem 3rem 1.5rem}
+.ft-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.ft-brand{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;margin-bottom:.8rem}
+.ft-tagline{font-size:.82rem;color:var(--muted);line-height:1.6;max-width:260px}
+.ft-head{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:1.2rem;color:var(--muted)}
+.ft-links{display:flex;flex-direction:column;gap:.6rem}
+.ft-links a{font-size:.82rem;color:rgba(245,245,245,.55);text-decoration:none;transition:color .2s}
+.ft-links a:hover{color:var(--white)}
+.ft-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.ft-legal{font-size:.65rem;color:var(--muted)}
+.ft-langs{display:flex;gap:1rem}
+.ft-langs a{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.ft-langs a:hover{color:var(--white)}
+.cart-drawer{position:fixed;top:0;right:0;bottom:0;width:380px;background:var(--gray);z-index:300;transform:translateX(100%);transition:transform .35s ease;border-left:1px solid var(--border);display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cd-head{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.cd-htitle{font-family:'Bebas Neue',sans-serif;font-size:1.5rem}
+.cd-close{background:none;border:none;color:var(--white);font-size:1.2rem;cursor:pointer;padding:.3rem}
+.cd-body{flex:1;overflow-y:auto;padding:1.5rem}
+.cd-empty{text-align:center;color:var(--muted);margin-top:3rem;font-size:.85rem;line-height:1.6}
+.cd-item{display:flex;gap:1rem;margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.cd-item img{width:72px;height:72px;object-fit:cover;flex-shrink:0}
+.cd-item-info{flex:1}
+.cd-item-name{font-size:.82rem;font-weight:600;margin-bottom:.2rem}
+.cd-item-meta{font-size:.68rem;color:var(--muted)}
+.cd-item-price{font-size:.9rem;font-weight:700;margin-top:.3rem;color:var(--red)}
+.cd-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;margin-top:.4rem;padding:0;font-family:'Barlow',sans-serif}
+.cd-remove:hover{color:var(--red)}
+.cd-foot{padding:1.5rem;border-top:1px solid var(--border)}
+.cd-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.cd-total-label{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.cd-total-price{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--red)}
+.cd-checkout{width:100%;padding:1rem;background:var(--red);color:var(--white);border:none;cursor:pointer;font-family:'Barlow',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;transition:background .2s}
+.cd-checkout:hover{background:var(--red2)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:199}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+@media(max-width:900px){
+  nav{padding:.9rem 1.5rem}.n-links{display:none}
+  .hero{padding:0 1.5rem 4rem}.hero-aside{display:none}
+  .cats-grid{grid-template-columns:repeat(2,1fr);padding:1.5rem}
+  section.s{padding:3rem 1.5rem}
+  .prod-grid{grid-template-columns:repeat(2,1fr);gap:.8rem}
+  .offers-inner,.global-inner,.ai-grid{grid-template-columns:1fr}
+  .offer-right{display:none}
+  .ft-grid{grid-template-columns:1fr 1fr;gap:2rem}
+  .cart-drawer{width:100%}
+  .news{padding:3rem 1.5rem}
+  footer{padding:2rem 1.5rem 1rem}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect,useRef}=React;
+
+const TICKER=["Envío Gratis en compras +$100","Nuevo: Air Max 2026","Hasta 40% OFF esta semana","12 meses sin intereses","Devolución gratuita 60 días","Nike Member: 10% extra","Colección limitada disponible"];
+const CATS=[
+  {name:"Hombres",count:"2.3k artículos",img:"https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=600&q=80"},
+  {name:"Mujeres",count:"1.8k artículos",img:"https://images.unsplash.com/photo-1596482846060-e0d5a00c2c92?w=600&q=80"},
+  {name:"Niños",count:"900 artículos",img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&q=80"},
+  {name:"Sport",count:"1.4k artículos",img:"https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80"},
+];
+const PRODUCTS=[
+  {name:"Air Max 270",cat:"Hombre · Running",price:180,old:220,badge:"sale",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",sizes:["38","39","40","41","42","43"]},
+  {name:"Air Force 1 '07",cat:"Unisex · Lifestyle",price:110,old:null,badge:"new",img:"https://images.unsplash.com/photo-1556906781-9a412961d28d?w=500&q=80",sizes:["36","37","38","39","40","41"]},
+  {name:"React Infinity Run",cat:"Mujer · Running",price:160,old:200,badge:"hot",img:"https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500&q=80",sizes:["35","36","37","38","39"]},
+  {name:"Air Jordan 1 Mid",cat:"Unisex · Basketball",price:130,old:null,badge:"new",img:"https://images.unsplash.com/photo-1584735175315-9d5df23be619?w=500&q=80",sizes:["39","40","41","42","43","44"]},
+];
+const TRENDING=[
+  {name:"Pegasus 40",price:"$120",img:"https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80"},
+  {name:"Zoom Fly 5",price:"$160",img:"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&q=80"},
+  {name:"Metcon 8",price:"$130",img:"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&q=80"},
+  {name:"Blazer Mid",price:"$100",img:"https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=400&q=80"},
+  {name:"Free Run 5",price:"$90",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80"},
+  {name:"Dunk Low",price:"$110",img:"https://images.unsplash.com/photo-1552346989-e069318e20a5?w=400&q=80"},
+];
+const COUNTRIES=["🇺🇸 USA","🇩🇴 RD","🇲🇽 MX","🇨🇴 CO","🇧🇷 BR","🇦🇷 AR","🇪🇸 ES","🇩🇪 DE","🇫🇷 FR","🇬🇧 UK","🇯🇵 JP","🇦🇺 AU"];
+
+function useCountdown(h,m,s){
+  const[t,setT]=useState({h,m,s});
+  useEffect(()=>{
+    const id=setInterval(()=>setT(p=>{
+      let{h,m,s}=p;
+      if(s>0)return{h,m,s:s-1};
+      if(m>0)return{h,m:m-1,s:59};
+      if(h>0)return{h:h-1,m:59,s:59};
+      return{h:0,m:0,s:0};
+    }),1000);
+    return()=>clearInterval(id);
+  },[]);
+  return t;
+}
+
+function App(){
+  const cd=useCountdown(5,47,23);
+  const[cart,setCart]=useState([]);
+  const[cartOpen,setCartOpen]=useState(false);
+  const[selSizes,setSelSizes]=useState({});
+  const[msgs,setMsgs]=useState([{role:"ai",text:"¡Hola! 👟 Soy tu asistente Nike. Puedo ayudarte a encontrar el modelo ideal, comparar tallas, conocer las mejores ofertas y mucho más. ¿En qué puedo ayudarte hoy?"}]);
+  const[input,setInput]=useState("");
+  const[loading,setLoading]=useState(false);
+  const[email,setEmail]=useState("");
+  const[subscribed,setSubscribed]=useState(false);
+  const chatRef=useRef(null);
+
+  useEffect(()=>{if(chatRef.current)chatRef.current.scrollTop=chatRef.current.scrollHeight;},[msgs,loading]);
+
+  const addToCart=p=>{
+    setCart(c=>{const ex=c.find(x=>x.name===p.name);
+      if(ex)return c.map(x=>x.name===p.name?{...x,qty:x.qty+1}:x);
+      return[...c,{...p,qty:1}];
+    });
+    setCartOpen(true);
+  };
+  const removeFromCart=name=>setCart(c=>c.filter(x=>x.name!==name));
+  const cartCount=cart.reduce((a,x)=>a+x.qty,0);
+  const cartTotal=cart.reduce((a,x)=>a+x.price*x.qty,0);
+
+  const sendMsg=async()=>{
+    const text=input.trim();
+    if(!text||loading)return;
+    setInput("");
+    setMsgs(p=>[...p,{role:"user",text}]);
+    setLoading(true);
+    try{
+      const history=msgs.map(m=>({role:m.role==="ai"?"assistant":"user",content:m.text}));
+      history.push({role:"user",content:text});
+      const res=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model:"claude-sonnet-4-20250514",max_tokens:1000,
+          system:"Eres el asistente de ventas del programa oficial de asociados Nike para todo el mundo. Conoces toda la línea Nike: calzado running, basketball, lifestyle, ropa y accesorios. Productos destacados: Air Max 270 ($180), Air Force 1 '07 ($110), React Infinity Run ($160), Air Jordan 1 Mid ($130). Responde en el idioma del cliente. Sé conciso y útil. Máximo 2-3 párrafos.",
+          messages:history,
+        }),
+      });
+      const data=await res.json();
+      const reply=data.content?.map(b=>b.text).join("")||"Lo siento, intenta de nuevo.";
+      setMsgs(p=>[...p,{role:"ai",text:reply}]);
+    }catch{
+      setMsgs(p=>[...p,{role:"ai",text:"Error de conexión. Por favor intenta nuevamente."}]);
+    }
+    setLoading(false);
+  };
+
+  return(
+    <>
+      {/* CART */}
+      <div className={`cart-drawer${cartOpen?" open":""}`}>
+        <div className="cd-head">
+          <span className="cd-htitle">Mi Carrito ({cartCount})</span>
+          <button className="cd-close" onClick={()=>setCartOpen(false)}>✕</button>
+        </div>
+        <div className="cd-body">
+          {cart.length===0
+            ?<div className="cd-empty">Tu carrito está vacío.<br/>¡Agrega tus favoritos Nike!</div>
+            :cart.map(item=>(
+              <div key={item.name} className="cd-item">
+                <img src={item.img} alt={item.name}/>
+                <div className="cd-item-info">
+                  <div className="cd-item-name">{item.name}</div>
+                  <div className="cd-item-meta">{item.cat} · Cant: {item.qty}</div>
+                  <div className="cd-item-price">${(item.price*item.qty).toLocaleString()}</div>
+                  <button className="cd-remove" onClick={()=>removeFromCart(item.name)}>Eliminar</button>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+        {cart.length>0&&(
+          <div className="cd-foot">
+            <div className="cd-total">
+              <span className="cd-total-label">Total</span>
+              <span className="cd-total-price">${cartTotal.toLocaleString()}</span>
+            </div>
+            <button className="cd-checkout">Finalizar Compra →</button>
+          </div>
+        )}
+      </div>
+      {cartOpen&&<div className="overlay" onClick={()=>setCartOpen(false)}/>}
+
+      {/* NAV */}
+      <nav>
+        <div className="n-logo">NIKE ✓</div>
+        <div className="n-links">
+          <a href="#categorias">Categorías</a>
+          <a href="#mas-vendidos">Más Vendidos</a>
+          <a href="#ofertas">Ofertas</a>
+          <a href="#asistente">Asistente IA</a>
+        </div>
+        <div className="n-right">
+          <button className="n-lang">🌐 ES</button>
+          <button className="n-cart" onClick={()=>setCartOpen(true)}>
+            🛒{cartCount>0&&<span className="cart-badge">{cartCount}</span>}
+          </button>
+        </div>
+      </nav>
+
+      {/* TICKER */}
+      <div className="ticker">
+        <div className="t-track">
+          {[...TICKER,...TICKER].map((t,i)=><span key={i} className="t-item">{t} · </span>)}
+        </div>
+      </div>
+
+      {/* HERO */}
+      <div className="hero">
+        <div className="hero-bg"/><div className="hero-ov"/>
+        <div className="hero-content">
+          <div className="h-tag">Programa Oficial de Asociados · 2026</div>
+          <h1 className="h-title">JUST<br/><span className="accent">DO IT.</span></h1>
+          <p className="h-desc">Las mejores zapatillas, ropa y accesorios Nike del mundo. Precios exclusivos para asociados, envíos a más de 90 países.</p>
+          <div className="h-btns">
+            <button className="btn-red" onClick={()=>document.getElementById('mas-vendidos').scrollIntoView({behavior:'smooth'})}>Ver más vendidos</button>
+            <button className="btn-wh" onClick={()=>document.getElementById('ofertas').scrollIntoView({behavior:'smooth'})}>Ofertas especiales</button>
+          </div>
+        </div>
+        <div className="hero-aside">
+          <div><div className="hs-num">90+</div><div className="hs-lbl">Países con envío</div></div>
+          <div><div className="hs-num">6.4K</div><div className="hs-lbl">Productos</div></div>
+          <div><div className="hs-num">4.9★</div><div className="hs-lbl">Valoración</div></div>
+        </div>
+      </div>
+
+      {/* CATS */}
+      <div id="categorias" className="cats-grid">
+        {CATS.map(c=>(
+          <div key={c.name} className="cat-card">
+            <img src={c.img} alt={c.name} className="cat-img" loading="lazy"/>
+            <div className="cat-ov"/>
+            <div className="cat-label">
+              <span className="cat-name">{c.name}</span>
+              <span className="cat-count">{c.count}</span>
+            </div>
+            <div className="cat-arrow">→</div>
+          </div>
+        ))}
+      </div>
+
+      {/* BEST SELLERS */}
+      <section className="s" id="mas-vendidos">
+        <div className="s-head">
+          <div><span className="s-tag">Lo más popular a nivel mundial</span><h2 className="s-title">MÁS VENDIDOS</h2></div>
+          <button className="s-more">Ver catálogo completo →</button>
+        </div>
+        <div className="prod-grid">
+          {PRODUCTS.map((p,i)=>(
+            <div key={i} className="prod-card">
+              <div className="prod-img-wrap">
+                <img src={p.img} alt={p.name} className="prod-img" loading="lazy"/>
+                <span className={`badge badge-${p.badge}`}>{p.badge==="sale"?"OFERTA":p.badge==="new"?"NUEVO":"🔥 POPULAR"}</span>
+                <button className="wishlist">♡</button>
+              </div>
+              <div className="prod-info">
+                <div className="prod-cat">{p.cat}</div>
+                <div className="prod-name">{p.name}</div>
+                <div className="prod-price">
+                  <span className="price-now">${p.price}</span>
+                  {p.old&&<><span className="price-old">${p.old}</span><span className="price-save">-{Math.round((1-p.price/p.old)*100)}%</span></>}
+                </div>
+                <div className="prod-sizes">
+                  {p.sizes.slice(0,4).map(sz=>(
+                    <button key={sz} className={`sz${selSizes[p.name]===sz?" active":""}`} onClick={()=>setSelSizes(s=>({...s,[p.name]:sz}))}>{sz}</button>
+                  ))}
+                </div>
+                <button className="add-btn" onClick={()=>addToCart(p)}>Agregar al Carrito</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* OFFERS */}
+      <section className="offers" id="ofertas">
+        <div className="offers-inner">
+          <div className="offer-left">
+            <div><span className="s-tag">Oferta exclusiva · Tiempo limitado</span><h2 className="s-title">FLASH SALE<br/>HASTA 40% OFF</h2></div>
+            <div className="offer-countdown">
+              <div className="cd-block"><div className="cd-num">{String(cd.h).padStart(2,"0")}</div><div className="cd-lbl">Horas</div></div>
+              <div className="cd-sep">:</div>
+              <div className="cd-block"><div className="cd-num">{String(cd.m).padStart(2,"0")}</div><div className="cd-lbl">Min</div></div>
+              <div className="cd-sep">:</div>
+              <div className="cd-block"><div className="cd-num">{String(cd.s).padStart(2,"0")}</div><div className="cd-lbl">Seg</div></div>
+            </div>
+            <div className="offer-items">
+              {["Air Max 270 — $180 (antes $220)","React Infinity Run — $160 (antes $200)","Pegasus 40 — $120 (antes $150)","Running hasta 35% OFF"].map(o=><div key={o} className="offer-item">{o}</div>)}
+            </div>
+            <button className="btn-red">Ver todas las ofertas →</button>
+          </div>
+          <div className="offer-right">
+            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800&q=85" alt="Oferta" loading="lazy"/>
+            <div className="offer-right-ov"/>
+            <div className="offer-price-tag"><div className="opt-label">Desde</div><div className="opt-price">$89</div></div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRENDING */}
+      <section className="s" style={{background:"var(--gray)"}}>
+        <div className="s-head">
+          <div><span className="s-tag">En tendencia ahora mismo</span><h2 className="s-title">TRENDING</h2></div>
+          <button className="s-more">Ver todos →</button>
+        </div>
+        <div className="trend-scroll">
+          {TRENDING.map((t,i)=>(
+            <div key={i} className="trend-card">
+              <img src={t.img} alt={t.name} className="trend-img" loading="lazy"/>
+              <div className="trend-info"><div className="trend-name">{t.name}</div><div className="trend-price">{t.price}</div></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* GLOBAL */}
+      <section className="s" style={{background:"linear-gradient(135deg,#0f0f0f 0%,#1a0a0a 100%)",borderTop:"1px solid var(--border)"}}>
+        <div className="global-inner">
+          <div>
+            <span className="s-tag">Enviamos a todo el mundo</span>
+            <h2 className="s-title">ALCANCE<br/>GLOBAL</h2>
+            <p className="global-desc">Compra desde cualquier país y recibe tu pedido Nike directamente en tu puerta. Rastreo en tiempo real, devoluciones gratuitas y atención en más de 20 idiomas.</p>
+            <div className="country-grid">{COUNTRIES.map(c=><div key={c} className="country-pill">{c}</div>)}</div>
+            <div className="ship-features">
+              <div className="sf-item"><div className="sf-label">Envío estándar</div><div className="sf-value">3–7 días</div></div>
+              <div className="sf-item"><div className="sf-label">Envío express</div><div className="sf-value">1–2 días</div></div>
+              <div className="sf-item"><div className="sf-label">Devoluciones</div><div className="sf-value">60 días gratis</div></div>
+            </div>
+          </div>
+          <div style={{display:"flex",justifyContent:"center"}}>
+            <svg width="360" height="320" viewBox="0 0 400 360" fill="none">
+              <circle cx="200" cy="180" r="150" stroke="#222" strokeWidth="1"/>
+              <circle cx="200" cy="180" r="110" stroke="#222" strokeWidth="1"/>
+              <circle cx="200" cy="180" r="70" stroke="#222" strokeWidth="1"/>
+              <ellipse cx="200" cy="180" rx="150" ry="55" stroke="#222" strokeWidth="1"/>
+              <ellipse cx="200" cy="180" rx="150" ry="105" stroke="#222" strokeWidth="1"/>
+              <line x1="50" y1="180" x2="350" y2="180" stroke="#222" strokeWidth="1"/>
+              <line x1="200" y1="30" x2="200" y2="330" stroke="#222" strokeWidth="1"/>
+              {[[120,100],[280,130],[170,220],[320,175],[80,175],[200,75],[150,260],[250,240],[310,110]].map(([x,y],i)=>(
+                <circle key={i} cx={x} cy={y} r="5" fill="#e8030f" style={{animation:`pulse 2s ${i*0.35}s infinite`}}/>
+              ))}
+              <circle cx="200" cy="180" r="7" fill="#f5a623"/>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      {/* AI */}
+      <section className="s" id="asistente" style={{background:"var(--black)",borderTop:"1px solid var(--border)"}}>
+        <div className="ai-grid">
+          <div>
+            <div className="ai-live"><span className="ai-live-dot"/>Asistente en vivo</div>
+            <h2 className="s-title">TU ASESOR<br/>PERSONAL NIKE</h2>
+            <p className="ai-desc">¿No sabes qué modelo elegir? ¿Dudas sobre tu talla? Nuestro asistente con inteligencia artificial te guía en segundos, en tu idioma.</p>
+            <div className="ai-perks">
+              {[["👟","Recomienda modelos según tu actividad"],["📏","Te ayuda a elegir la talla correcta"],["💰","Encuentra las mejores ofertas"],["🌎","Disponible en más de 20 idiomas"],["⚡","Respuestas en tiempo real, 24/7"]].map(([icon,text])=>(
+                <div key={text} className="ai-perk"><div className="perk-icon">{icon}</div><span>{text}</span></div>
+              ))}
+            </div>
+          </div>
+          <div className="chat-box">
+            <div className="ch-head">
+              <div className="ch-av">N</div>
+              <div><div className="ch-name">Asistente Nike IA</div><div className="ch-sub">Powered by Claude · Responde en tu idioma</div></div>
+            </div>
+            <div className="ch-msgs" ref={chatRef}>
+              {msgs.map((m,i)=>(
+                <div key={i} className={`msg ${m.role}`}>
+                  <div className="msg-av">{m.role==="ai"?"N":"U"}</div>
+                  <div className="msg-bbl">{m.text}</div>
+                </div>
+              ))}
+              {loading&&<div className="msg ai"><div className="msg-av">N</div><div className="msg-bbl"><div className="typing"><span/><span/><span/></div></div></div>}
+            </div>
+            <div className="quick-btns">
+              {["¿Qué oferta tienen hoy?","¿Cuál Air Max me recomiendas?","¿Cómo elijo mi talla?"].map(q=>(
+                <button key={q} className="qb" onClick={()=>setInput(q)}>{q}</button>
+              ))}
+            </div>
+            <div className="ch-input-row">
+              <input className="ch-input" placeholder="Escribe tu consulta..." value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&sendMsg()}/>
+              <button className="ch-send" onClick={sendMsg} disabled={loading||!input.trim()}>↑</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEWSLETTER */}
+      <div className="news">
+        <h2 className="news-title">OFERTAS EXCLUSIVAS EN TU EMAIL</h2>
+        <p className="news-desc">Únete a más de 2 millones de miembros Nike en todo el mundo</p>
+        {subscribed
+          ?<p style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:"1.5rem",letterSpacing:".1em"}}>✓ ¡Gracias! Te has suscrito exitosamente.</p>
+          :<div className="news-form">
+            <input className="news-inp" placeholder="Tu correo electrónico" value={email} onChange={e=>setEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&email&&setSubscribed(true)}/>
+            <button className="news-btn" onClick={()=>email&&setSubscribed(true)}>Suscribirse</button>
+          </div>
+        }
+      </div>
+
+      {/* FOOTER */}
+      <footer>
+        <div className="ft-grid">
+          <div>
+            <div className="ft-brand">NIKE ✓</div>
+            <p className="ft-tagline">Programa oficial de asociados Nike. Productos auténticos, precios exclusivos y envíos a todo el mundo.</p>
+          </div>
+          <div>
+            <div className="ft-head">Productos</div>
+            <div className="ft-links">{["Calzado Running","Lifestyle","Basketball","Ropa","Accesorios"].map(l=><a key={l} href="#">{l}</a>)}</div>
+          </div>
+          <div>
+            <div className="ft-head">Ayuda</div>
+            <div className="ft-links">{["Guía de tallas","Envíos","Estado de pedido","Garantía","Contáctanos"].map(l=><a key={l} href="#">{l}</a>)}</div>
+          </div>
+          <div>
+            <div className="ft-head">Asociados</div>
+            <div className="ft-links">{["Programa asociados","Comisiones","Marketing","Dashboard","Términos"].map(l=><a key={l} href="#">{l}</a>)}</div>
+          </div>
+        </div>
+        <div className="ft-bottom">
+          <span className="ft-legal">© 2026 Nike Affiliate Program · Sitio de asociados autorizado</span>
+          <div className="ft-langs">{["ES","EN","PT","FR","DE","JP"].map(l=><a key={l} href="#">{l}</a>)}</div>
+        </div>
+      </footer>
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
